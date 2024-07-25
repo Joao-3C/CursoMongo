@@ -1,0 +1,1 @@
+{"options":{"capped":true,"size":{"$numberInt":"1000"},"max":{"$numberInt":"3"}},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"3a9363fd489a412e915d43cb2bb83a9d","collectionName":"colecao3","type":"collection"}

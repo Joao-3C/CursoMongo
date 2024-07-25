@@ -1,0 +1,3 @@
+{"_id":{"$oid":"669fd85e883cfb0865c4e49b"},"time":"Goiás","campeonato":"serie B","tamamnho":"imenso"}
+{"_id":{"$oid":"669fd85e883cfb0865c4e49c"},"time":"Santos","campeonato":"serie B","tamamnho":"grande"}
+{"_id":{"$oid":"669fd85e883cfb0865c4e49d"},"time":"Palmeiras","campeonato":"serie A","tamamnho":"minúsculo"}
