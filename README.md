@@ -142,6 +142,9 @@
 + **Tipo text:**  
     - define q determinado campo é um texto => *db.inspecoes.createIndex( { business_name: 'text' } )*
 
+
+###      AGREGATIONS PIPELINE ==========
+
 + **Bucket:**
     - é um "balde" que vai agregar resultados e retornar alguma coisa, baseando eles em um campo em comum => 
 ```
@@ -160,7 +163,7 @@
                     e assim vai e no retorno define uma variável q vai contar +1 pra cada livro q for adicionado
 ```
 
-+ BucketAuto:
++ **BucketAuto:**
     - ele é mais rápido, nele nós definimos quantos buckets queremos, aí o próprio mongo separa pra gente =>
 ```
                     db.books.aggregate([
@@ -172,9 +175,54 @@
                         }
                     ])
 ```
-.
-.
-.
+
++ **CollStatus:**
+  - retorna status/informaçoes de uma collection =>
+```
+                db.books.aggregate([{ $collStats: {queryExecStats: {}, count:{} } }])
+```
+
++ **Sort:**
+    - ordena os resultados baseados em uma ordem crescente 1 ou decrescente -1 =>
+```
+                    db.books.aggregate([
+                        {
+                            $sort: {pageCount: -1}
+                        }
+                    ])    nesse caso mostra os livros com mais páginas, começando pelos maiores
+```
+
++ **Limit**
+    - limita a quantidade de resultados recebidos =>
+```
+
+                    db.books.aggregate([
+                        { $sort: {  pageCount: -1} },
+                        {$limit: 3}
+                    ])
+
+```
+
++ **Match**
+    - Filtra por um campo específico. ME parece ser útil no contexto onde vc mistura com outras PipeLines =>
+```
+                    db.books.aggregate([
+                        { $sort: {  pageCount: -1} },
+                        { $match: {authors: 'Gavin King'}},
+                        { $limit: 3}
+                    ])
+```
+
++ **Out**
+    - cria uma nova collection a partir dos resultados dessa =>
+```
+                    db.books.aggregate([
+                        {$match: {categories: 'JAVA', pageCount: {$gte: 800} } },
+                        {$limit: 5},
+                        {$out: "bigJavaBooks"}
+                    
+                    ])
+```
 
 
 ## -----------------------------------------TIPOS DE DADOS------------------------------------------------------------
