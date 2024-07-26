@@ -224,6 +224,71 @@
                     ])
 ```
 
++ **Project**
+    - retorna apenas o campo q a gente selecionou =>
+```
+db.books.aggregate([
+    {$match: {authors: 'Gavin King'} },
+    {$sort: { pageCount: -1 } },
+    {$limit: 3 },
+    {$project: {title: 1}}
+])
+```
+
++ **Sample**
+    - Retorna uma amostragem aleatória, com a quantidade q vc definir =>
+```
+db.books.aggregate([
+    {$sample: {size: 3}}
+])
+```
+
++ **Skip**
+    - pula determinado número de resultados da consulta. Pula sempre os primeiros =>
+```
+db.books.aggregate([
+    {$match: {categories: 'Microsoft'}},
+    {$sort: {pageCount: -1}},
+    {$project: {title: 1, pageCount:1}},
+    {$skip: 2},
+    {$limit: 2},
+])    **SE ATENTE A ORDEM DOS COMANDOS**
+```
+
++ **UnWind**
+    - ele desmonta um array, aí dá pra trabalhar melhor com os dados dele =>
+```
+                    db.books.aggregate([
+                        {$unwind: "$categories"},
+                        {$project: {categories: 1}}
+                    ])
+```
+
++ **Extraindo resultados do unwind**
+    - usa sortByCount pra ordenar os resultados do unwind, assim dá pra ordenar os dados dele =>
+```
+                    db.books.aggregate([
+                        {$unwind: "$categories"},
+                        {$sortByCount: '$categories'},
+                    ])                   
+```
+
++ **Unset**
+    - remove um ou mais campos do retorno da agregattion (contrário do project) =>
+```
+                    x'
+```
+
++ **Count**
+    - usa o operador pipeline **$count** =>
+```
+db.books.aggregate([
+    {$match: {categories: 'Java'}},
+    {$count: 'contagem'},
+   
+])
+```
+
 
 ## -----------------------------------------TIPOS DE DADOS------------------------------------------------------------
 
