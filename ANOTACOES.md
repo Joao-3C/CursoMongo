@@ -1,6 +1,6 @@
 #                                           CURSO MONGO
 
-COMANDOS
+## -----------------------------COMANDOS--------------------------------------------
 Cria banco: use nomeDoBanco
 Cria collection: db.***.inserir dados
                            db.createcollection(“nome ”, {capped: true, size: tamanho-em-bits, max:                
@@ -105,7 +105,7 @@ db.inspecoes.createIndex( { business_name: 'text' } )
 
 
 
-TIPOS DE DADOS
+## TIPOS DE DADOS
 	Dados comuns: strin, numbers, booleans, array, datas
 Datas:  -formato ISO
 	-criamos tada com: new Date()
