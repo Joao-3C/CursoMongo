@@ -1,11 +1,12 @@
 #                                           CURSO MONGO
 
-## -----------------------------COMANDOS--------------------------------------------
-Cria banco: use nomeDoBanco
-Cria collection: db.***.inserir dados
+## -----------------------------------------COMANDOS------------------------------------------------------------
++ Cria banco: use nomeDoBanco
+
++ Cria collection: db.***.inserir dados
                            db.createcollection(“nome ”, {capped: true, size: tamanho-em-bits, max:                
                             n-máximo-documents-no-banco(linhas)} )
-Insert: db.nomeCollection.insertOne({ dados })
++ Insert: db.nomeCollection.insertOne({ dados })
 	           db.nomeCollection.insertMany( [{ dados }] )
 Select todos e select filtrado:  db.nomeCollection.find()
                                                   db.nomeCollection.finf( nome:”tanana”)
@@ -104,8 +105,8 @@ db.inspecoes.createIndex( { business_name: 'text' } )
 .
 
 
+## -----------------------------------------TIPOS DE DADOS------------------------------------------------------------
 
-## TIPOS DE DADOS
 	Dados comuns: strin, numbers, booleans, array, datas
 Datas:  -formato ISO
 	-criamos tada com: new Date()
