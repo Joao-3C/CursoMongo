@@ -141,9 +141,37 @@
 
 + **Tipo text:**  
     - define q determinado campo é um texto => *db.inspecoes.createIndex( { business_name: 'text' } )*
-.
-.
-.
+
++ **Bucket:**
+    - é um "balde" que vai agregar resultados e retornar alguma coisa, baseando eles em um campo em comum => 
+```
+                    db.books.aggregate([
+                        {
+                            $bucket: {
+                                groupBy: '$pageCount',
+                                boundaries: [100, 200, 300, 400, 500, 600, 700],
+                                default: 'OTHERS',
+                                output: {
+                                    "count": { $sum: 1 }
+                                }
+                            }
+                        }
+                    ])Esse caso está separando os livros por pagecount de 0 a 100, 100 a 200
+                    e assim vai e no retorno define uma variável q vai contar +1 pra cada livro q for adicionado
+```
+
++ BucketAuto:
+    - ele é mais rápido, nele nós definimos quantos buckets queremos, aí o próprio mongo separa pra gente =>
+```
+                    db.books.aggregate([
+                        {
+                            $bucketAuto: {
+                                groupBy: "$categories",
+                                buckets: 6
+                            }
+                        }
+                    ])
+```
 .
 .
 .
@@ -168,3 +196,9 @@
 **Relacionamentos**
 + **Embedded:**
     - Vc guarda um documento dentro do outro, ou seja, em um dos campos vc coloca um documento q vai ter alguns atributos, seria como guardar um objeto.
+
+
+  **PipeLine**
+  Pipelineline é tipo um encanamento, ele serve pra fazer uma agregation (agregar resultados). Pode ser deifnido como o modo como contruímos nossa agregation
+
+  
