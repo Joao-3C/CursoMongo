@@ -142,6 +142,9 @@
 + **Tipo text:**  
     - define q determinado campo é um texto => *db.inspecoes.createIndex( { business_name: 'text' } )*
 
+
+###      AGREGATIONS PIPELINE ==========
+
 + **Bucket:**
     - é um "balde" que vai agregar resultados e retornar alguma coisa, baseando eles em um campo em comum => 
 ```
@@ -160,7 +163,7 @@
                     e assim vai e no retorno define uma variável q vai contar +1 pra cada livro q for adicionado
 ```
 
-+ BucketAuto:
++ **BucketAuto:**
     - ele é mais rápido, nele nós definimos quantos buckets queremos, aí o próprio mongo separa pra gente =>
 ```
                     db.books.aggregate([
@@ -172,9 +175,119 @@
                         }
                     ])
 ```
-.
-.
-.
+
++ **CollStatus:**
+  - retorna status/informaçoes de uma collection =>
+```
+                db.books.aggregate([{ $collStats: {queryExecStats: {}, count:{} } }])
+```
+
++ **Sort:**
+    - ordena os resultados baseados em uma ordem crescente 1 ou decrescente -1 =>
+```
+                    db.books.aggregate([
+                        {
+                            $sort: {pageCount: -1}
+                        }
+                    ])    nesse caso mostra os livros com mais páginas, começando pelos maiores
+```
+
++ **Limit**
+    - limita a quantidade de resultados recebidos =>
+```
+
+                    db.books.aggregate([
+                        { $sort: {  pageCount: -1} },
+                        {$limit: 3}
+                    ])
+
+```
+
++ **Match**
+    - Filtra por um campo específico. ME parece ser útil no contexto onde vc mistura com outras PipeLines =>
+```
+                    db.books.aggregate([
+                        { $sort: {  pageCount: -1} },
+                        { $match: {authors: 'Gavin King'}},
+                        { $limit: 3}
+                    ])
+```
+
++ **Out**
+    - cria uma nova collection a partir dos resultados dessa =>
+```
+                    db.books.aggregate([
+                        {$match: {categories: 'JAVA', pageCount: {$gte: 800} } },
+                        {$limit: 5},
+                        {$out: "bigJavaBooks"}
+                    
+                    ])
+```
+
++ **Project**
+    - retorna apenas o campo q a gente selecionou =>
+```
+db.books.aggregate([
+    {$match: {authors: 'Gavin King'} },
+    {$sort: { pageCount: -1 } },
+    {$limit: 3 },
+    {$project: {title: 1}}
+])
+```
+
++ **Sample**
+    - Retorna uma amostragem aleatória, com a quantidade q vc definir =>
+```
+db.books.aggregate([
+    {$sample: {size: 3}}
+])
+```
+
++ **Skip**
+    - pula determinado número de resultados da consulta. Pula sempre os primeiros =>
+```
+db.books.aggregate([
+    {$match: {categories: 'Microsoft'}},
+    {$sort: {pageCount: -1}},
+    {$project: {title: 1, pageCount:1}},
+    {$skip: 2},
+    {$limit: 2},
+])    **SE ATENTE A ORDEM DOS COMANDOS**
+```
+
++ **UnWind**
+    - ele desmonta um array, aí dá pra trabalhar melhor com os dados dele =>
+```
+                    db.books.aggregate([
+                        {$unwind: "$categories"},
+                        {$project: {categories: 1}}
+                    ])
+```
+
++ **Extraindo resultados do unwind**
+    - usa sortByCount pra ordenar os resultados do unwind, assim dá pra ordenar os dados dele =>
+```
+                    db.books.aggregate([
+                        {$unwind: "$categories"},
+                        {$sortByCount: '$categories'},
+                    ])                   
+```
+
++ **Unset**
+    - remove um ou mais campos do retorno da agregattion (contrário do project) =>
+```
+                    x'
+```
+
++ **Count**
+    - usa o operador pipeline **$count** =>
+```
+db.books.aggregate([
+    {$match: {categories: 'Java'}},
+    {$count: 'contagem'},
+   
+])
+```
 
 
 ## -----------------------------------------TIPOS DE DADOS------------------------------------------------------------
